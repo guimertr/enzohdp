@@ -1,0 +1,42 @@
+TCPU=( 10 4  1)
+TLL=( 0 5 8 )
+#calculo del orden
+orden=(0)
+if [[ ${TCPU[1]} < ${TCPU[2]} ]]
+then 
+orden[1]=1
+orden[2]=2
+else
+orden[1]=2
+orden[2]=1
+fi
+
+#tiempo de llegada real de p1 = 10
+real1=${TLL[0]}
+#tiempo de llegada real de p2 =
+if [[ ${orden[1]} == 1 ]]
+then
+real2=${TCPU[0]}
+let real3=${TCPU[0]}+${TCPU[1]}
+else
+real3=${TCPU[0]}
+let real2=${TCPU[0]}+${TCPU[2]}
+fi
+
+#calculo wt =
+wt1=0
+let wt2=$real2-${TLL[1]}
+let wt3=$real3-${TLL[2]}
+echo wt del P1 = $wt1
+echo wt del P2 = $wt2
+echo wt del P3 = $wt3
+#calculo TCT
+let tct1=$wt1+${TCPU[0]}
+let tct2=$wt2+${TCPU[1]}
+let tct3=$wt3+${TCPU[2]}
+echo tct del P1 = $tct1
+echo tct del P2 = $tct2
+echo tct del P3 = $tct3
+#calculo de ACT
+act=$(echo "scale=3; ($tct1+$tct2+$tct3)/3" | bc)
+echo el act es $act
